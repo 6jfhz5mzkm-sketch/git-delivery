@@ -264,6 +264,8 @@ git rev-parse HEAD            # 与 git rev-parse <remote>/<branch> 比对，一
 |---|---|
 | 命令管道到 `Out-Host` 后读 `$LASTEXITCODE` | 退出码在管道里会丢；直接跑，或读进程对象 |
 | 中文/引号内联进 `-m` | `-F` + UTF-8 文件（无 BOM） |
+| 用 `Set-Content -Encoding utf8` 写消息文件 | Windows PowerShell 5.1 会写入 BOM；改用
+  `[System.IO.File]::WriteAllText($p,$t,(New-Object System.Text.UTF8Encoding $false))` |
 | 忽略 `core.autocrlf` | `.gitattributes` 固定平台脚本换行 |
 | 忽略 `core.ignorecase=true` | 大小写改名用 `git mv` 并核对 `status` |
 

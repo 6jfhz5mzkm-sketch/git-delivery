@@ -43,33 +43,57 @@
 
 ### 方式一：一行命令（推荐）
 
+**Linux / macOS**
+
 ```bash
-git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git <技能目录>/git-delivery
+# DSH
+git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git ~/.dsh/skills/git-delivery
+
+# Claude Code
+git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git ~/.claude/skills/git-delivery
 ```
 
-把 `<技能目录>` 换成下面对应的路径：
+**Windows（PowerShell）**
 
-| 宿主 | 技能目录 |
-|---|---|
-| DSH | `~/.dsh/skills/`（Windows：`C:\Users\<你>\.dsh\skills\`） |
-| Claude Code | `~/.claude/skills/` |
-| 项目级（任意 agent） | 该项目约定的 skills 目录，保持 `SKILL.md` 在 `git-delivery/` 根 |
+```powershell
+# DSH
+git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git "$env:USERPROFILE\.dsh\skills\git-delivery"
 
-装完确认 `<技能目录>/git-delivery/SKILL.md` 存在，然后重开会话（技能目录会被重新扫描）。
-仓库为私有的话，克隆需要凭据；公开仓库直接匿名克隆即可。
+# Claude Code
+git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git "$env:USERPROFILE\.claude\skills\git-delivery"
+```
 
-### 方式二：安装口令（把下面整段发给 agent）
+上面的目标路径都是**完整的**，不需要再拼任何东西，复制即可执行。
+其它 harness 用它自己的 skills 目录，唯一要求是 `SKILL.md` 位于 `git-delivery/` 根。
+
+装完确认 `git-delivery/SKILL.md` 存在，然后重开会话（技能目录会被重新扫描）。
+仓库为私有的话克隆需要凭据；公开仓库匿名克隆即可。
+
+> 下文出现的 `<...>` 是占位符，**不要原样复制进命令**，按你的实际情况替换。
+
+### 方式二：安装口令（整段复制给 agent，它自己拼路径）
+
+**最短一版**
+
+```
+把 https://github.com/6jfhz5mzkm-sketch/git-delivery.git 克隆到你自己的技能目录下的 git-delivery 子目录，
+装完确认 git-delivery/SKILL.md 在目录根，然后复述这个技能会在哪些情况下被触发。
+```
+
+**完整版（含把规则写进项目）**
 
 ```
 帮我安装一个技能：
-1. 告诉我你的技能目录（DSH 是 ~/.dsh/skills/，Claude Code 是 ~/.claude/skills/）
-2. 执行：git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git <技能目录>/git-delivery
+1. 先告诉我你的技能目录在哪（DSH 是 ~/.dsh/skills/，Claude Code 是 ~/.claude/skills/）
+2. 把 https://github.com/6jfhz5mzkm-sketch/git-delivery.git 克隆到你刚才报的那个目录下的 git-delivery 子目录
 3. 确认 git-delivery/SKILL.md 在目录根
 4. 复述这个技能会在哪些情况下被触发
 5. 检查当前项目规则文件（AGENTS.md / CLAUDE.md / CONTRIBUTING.md）里有没有 Git 提交规则；
    没有就把 SKILL.md §14 那 5 行加进去（合并进已有 Git 章节，不新建平行章节），动手前先把改动给我看
 6. 一句话告诉我装好了
 ```
+
+两版都**不含尖括号占位符**，可以直接整段发给 agent。
 
 第 4 步是验收：如果复述里没有「提交」「推上去」「该不该重来」「reset 之后还能救吗」这类场景，
 说明它没真正读到 `SKILL.md`，别信「已装好」。

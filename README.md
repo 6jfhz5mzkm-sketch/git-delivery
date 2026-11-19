@@ -44,10 +44,51 @@
 
 ## 安装
 
-1. 把整个 `git-delivery/` 目录放进技能目录：
-   - DSH：`~/.dsh/skills/git-delivery/`（Windows：`C:\Users\<你>\.dsh\skills\git-delivery\`）
-   - 其它 harness：放进它约定的 skills 目录，保持 `SKILL.md` 在目录根。
-2. 重开会话（技能目录会被重新扫描）。不需要联网、不需要额外依赖。
+### 方式一：一行命令（推荐）
+
+```bash
+git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git <技能目录>/git-delivery
+```
+
+把 `<技能目录>` 换成下面对应的路径：
+
+| 宿主 | 技能目录 |
+|---|---|
+| DSH | `~/.dsh/skills/`（Windows：`C:\Users\<你>\.dsh\skills\`） |
+| Claude Code | `~/.claude/skills/` |
+| 项目级（任意 agent） | 该项目约定的 skills 目录，保持 `SKILL.md` 在 `git-delivery/` 根 |
+
+装完确认 `<技能目录>/git-delivery/SKILL.md` 存在，然后重开会话（技能目录会被重新扫描）。
+仓库为私有的话，克隆需要凭据；公开仓库直接匿名克隆即可。
+
+### 方式二：安装口令（把下面整段发给 agent）
+
+```
+帮我安装一个技能：
+1. 告诉我你的技能目录（DSH 是 ~/.dsh/skills/，Claude Code 是 ~/.claude/skills/）
+2. 执行：git clone https://github.com/6jfhz5mzkm-sketch/git-delivery.git <技能目录>/git-delivery
+3. 确认 git-delivery/SKILL.md 在目录根
+4. 复述这个技能会在哪些情况下被触发
+5. 一句话告诉我装好了
+```
+
+第 4 步是验收：如果复述里没有「提交」「推上去」「该不该重来」「reset 之后还能救吗」这类场景，
+说明它没真正读到 `SKILL.md`，别信「已装好」。
+
+### 方式三：离线安装（无网络 / 内网）
+
+下载仓库 zip → 解压，保证 `SKILL.md` 位于 `git-delivery/` 目录根，再放进技能目录。
+
+### 验证装对了
+
+对 agent 说「现在该提交吗」：
+
+- 正常：只做只读检查，给出「提交节点」提醒或「当前无改动」，**不会提交任何东西**。
+- 异常：直接提交了东西，或报找不到技能。
+
+### 卸载
+
+删掉 `git-delivery/` 目录即可。它不写全局配置、不装依赖、不留状态文件。
 
 ## 怎么触发
 

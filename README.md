@@ -41,7 +41,41 @@
 
 ## 安装
 
-### 方式一：一行命令（推荐）
+### 方式零：npx（官方 CLI，最省事）
+
+```bash
+npx skills add 6jfhz5mzkm-sketch/git-delivery
+```
+
+先看它发现了什么（只读，不安装）：
+
+```bash
+npx skills add 6jfhz5mzkm-sketch/git-delivery --list
+```
+
+指定 agent、全局安装、非交互：
+
+```bash
+npx skills add 6jfhz5mzkm-sketch/git-delivery -a claude-code
+npx skills add 6jfhz5mzkm-sketch/git-delivery -g -a claude-code -y
+```
+
+不安装、直接用一次：
+
+```bash
+npx skills use 6jfhz5mzkm-sketch/git-delivery@git-delivery --agent claude-code
+```
+
+说明与边界：
+
+- 需要 **Node.js ≥ 22.20**（官方 CLI 的硬要求）。
+- `skills` 是 Vercel Labs 的通用安装器（npm 包名 `skills`），支持 Claude Code、Codex、Cursor、OpenCode 等 80 多个 agent。
+- 本仓库是**单技能仓库**（根目录一个 `SKILL.md`），该结构已由 CLI 源码 `discoverSkills` 确认为受支持；
+  仓库名与技能名不同也没关系，安装后的技能名取自 `SKILL.md` 的 frontmatter（`git-delivery`）。
+- ⚠️ **端到端未在本机实测**（本机 Node 22.19 低于要求）。若 `--list` 没有列出 `git-delivery`，
+  说明 CLI 行为与源码判断有出入，请改用下面的 git clone 方式，并提 issue。
+
+### 方式一：git clone（任何环境都能用）
 
 **Linux / macOS**
 
